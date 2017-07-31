@@ -2,12 +2,14 @@ cat_line <- function(...) {
   cat(..., "\n", sep = "")
 }
 
-col_align <- function(x, width, align) {
+cf_align <- function(x, width, align) {
   vapply(x, crayon::col_align, width = width, align = align,
     FUN.VALUE = character(1))
 }
 
 str_trunc <- function(x, width = 20) {
+  if (width == Inf) return(x)
+
   str_width <- nchar(x, type = "width")
 
   too_wide <- !is.na(x) & str_width > width
