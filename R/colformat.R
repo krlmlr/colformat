@@ -1,5 +1,8 @@
 #' Format a vector suitable for tabular display
 #'
+#' `colformat()` formats a vector using one row for a title (if given),
+#' one row for the type, and `length(x)` rows for the data.
+#'
 #' @param x A vector to format
 #' @param title An optional title for the column
 #' @param width Default width, optional
@@ -39,6 +42,17 @@ colformat <- function(x, title = NULL, width = NULL, ...) {
     class = "colformat"
   )
   ret <- set_width(ret, width)
+  ret
+}
+
+rowidformat <- function(n, has_title_row = FALSE, has_star = FALSE, ...) {
+  title <- rif_title(has_title_row, ...)
+  type <- rif_type(has_star, ...)
+  data <- rif_data(n, ...)
+  ret <- structure(
+    list(title = title, type = type, data = data),
+    class = "colformat"
+  )
   ret
 }
 
