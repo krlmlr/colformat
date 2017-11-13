@@ -2,7 +2,8 @@ Package: pillar
 Title: Coloured Formatting for Columns
 Version: 0.0.0.9000
 Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", role = c("aut", "cre")),
+    person("Kirill", "Müller", , "krlmlr+r@mailbox.org", role = c("aut", "cre")),
+    person("Hadley", "Wickham", role = "aut"),
     person("RStudio", role = "cph")
   )
 Description: Provides a `pillar` generic designed for formatting columns
@@ -13,14 +14,15 @@ LazyData: true
 URL: https://github.com/hadley/pillar
 BugReports: https://github.com/hadley/pillar/issues
 Imports:
+    cli,
     crayon,
     methods,
-    rlang
+    rlang,
+    utf8
 Suggests:
     knitr,
     testthat
 Roxygen: list(markdown = TRUE, roclets = c("collate", "namespace", "rd", "pkgapi::api_roclet"))
 RoxygenNote: 6.0.1
 Remotes:
-    r-lib/crayon,
-    hadley/testthat
+    r-lib/crayon

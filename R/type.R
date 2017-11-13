@@ -7,14 +7,17 @@ style_type <- function(x) {
 }
 
 pillar_type <- function(x, ...) {
-  type <- type_sum(x)
+  type <- as_character(type_sum(x) %||% "")
+  if (length(type) == 0L) type <- ""
+  type <- type[[1L]]
+
   ret <- structure(
     list(
       type = type
     ),
     class = "pillar_type"
   )
-  ret <- set_width(ret, width = nchar(type, type = "width") + 2L)
+  ret <- set_width(ret, width = get_extent(type) + 2L)
   ret <- set_min_width(ret, 5L)
   ret
 }

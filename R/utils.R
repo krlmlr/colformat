@@ -2,18 +2,13 @@ cat_line <- function(...) {
   cat(..., "\n", sep = "")
 }
 
-pillar_align <- function(x, width, align) {
-  vapply(x, crayon::col_align, width = width, align = align,
-    FUN.VALUE = character(1))
-}
-
 str_trunc <- function(x, width) {
-  if (width == Inf) return(x)
+  if (is.infinite(width)) return(x)
 
-  str_width <- crayon::col_nchar(x, type = "width")
+  str_width <- utf8::utf8_width(crayon::strip_style(x), encode = FALSE)
 
-  too_wide <- !is.na(x) & str_width > width
-  x[too_wide] <- paste0(crayon::col_substr(x[too_wide], 1, width - 1), "\u2026")
+  too_wide <- which(!is.na(x) & str_width > width)
+  x[too_wide] <- paste0(crayon::col_substr(x[too_wide], 1, width - 1), get_ellipsis())
 
   x
 }
@@ -41,4 +36,19 @@ ruler <- function(width = getOption("width")) {
 
 slice <- function(df, index) {
   df[index, , drop = FALSE]
+}
+
+get_ellipsis <- function() {
+  cli::symbol$continue
+}
+
+is_latex_output <- function() {
+  if (!("knitr" %in% loadedNamespaces())) return(FALSE)
+  get("is_latex_output", asNamespace("knitr"))()
+}
+
+remove_as_is_class <- function(x) {
+  if (all(class(x) == "AsIs")) return(unclass(x))
+  class(x) <- setdiff(class(x), "AsIs")
+  x
 }
